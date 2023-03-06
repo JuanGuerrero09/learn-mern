@@ -1,33 +1,41 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import Button from 'react-bootstrap/Button'
-import './App.css'
-import { Note } from './models/note'
+import { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Note as NoteModel } from "./models/note";
+import styles from './styles/NotesPage.module.css'
+import Note from "./components/Note";
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([])
+  const [notes, setNotes] = useState<NoteModel[]>([]);
 
   useEffect(() => {
     async function loadNotes() {
-      try{
-        const response = await fetch("/api/notes", {method: 'GET'})
-        const notes = await response.json()
-        setNotes(notes)
-      }
-      catch(error){
-        console.error(error)
+      try {
+        const response = await fetch("http://localhost:8080/api/notes", {
+          method: "GET",
+        });
+        const notes = await response.json();
+        setNotes(notes);
+      } catch (error) {
+        console.error(error);
         // alert(error)
       }
     }
-    loadNotes()
-  }, [])
-  
+    loadNotes();
+  }, []);
 
   return (
-    <div className="App">
-      {JSON.stringify(notes)}
+    <div>
+      <Container>
+        <Row xs={1} md={2} lg={3} className="g-4">
+          {notes.map((note) => (
+            <Col key={note._id}>
+              <Note note={note} className={styles.note}/>
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
