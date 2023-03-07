@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap"
 import { Note as NoteModel } from "../models/note"
 import styles from "../styles/Note.module.css";
-import { formatDate } from "../utils/formatdate";
+import { formatDate } from "../utils/formatDate";
 
 interface NoteProps {
   note: NoteModel,
