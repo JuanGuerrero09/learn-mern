@@ -11,6 +11,7 @@ specifiers:
   react-bootstrap: ^2.7.2
   react-dom: ^18.2.0
   react-hook-form: ^7.43.5
+  react-icons: ^4.8.0
   typescript: ^4.9.3
   vite: ^4.1.0
   vite-plugin-eslint: ^1.8.1
@@ -22,6 +23,7 @@ dependencies:
   react-bootstrap: 2.7.2_zula6vjvt3wdocc4mwcxqa6nzi
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.43.5_react@18.2.0
+  react-icons: 4.8.0_react@18.2.0
 
 devDependencies:
   '@types/react': 18.0.28
@@ -1197,6 +1199,14 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /react-icons/4.8.0_react@18.2.0:
+    resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
+    peerDependencies:
+      react: '*'
     dependencies:
       react: 18.2.0
     dev: false
