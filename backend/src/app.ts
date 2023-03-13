@@ -7,6 +7,7 @@ import "dotenv/config";
 import createHttpError, {isHttpError} from "http-errors";
 import session from "express-session";
 import MongoStore from 'connect-mongo'
+import { requiresAuth } from "./middleware/auth";
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 app.use(session({
-  secret: process.env.SESSION_SECRET as string,
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  secret: process.env.SESSION_SECRET!,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -30,7 +32,7 @@ app.use(session({
 }))
 
 app.use('/api/users', userRoutes)
-app.use('/api/notes', notesRoutes)
+app.use('/api/notes', requiresAuth, notesRoutes)
 
 app.use((req, res, next) => {
   next(createHttpError(404, 'Endpoint not found'))

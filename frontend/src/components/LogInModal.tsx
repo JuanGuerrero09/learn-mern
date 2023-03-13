@@ -24,6 +24,7 @@ export default function LogInModal({
 
   const onSubmit = async (credentials: LogInCredentials) => {
     try {
+      console.log(credentials)
       const userLogIn = await NoteApi.logIn(credentials);
       onLogInSuccessful(userLogIn);
     } catch (error) {
@@ -41,12 +42,12 @@ export default function LogInModal({
         <Form onSubmit={handleSubmit(onSubmit)}>
           <TextInputField
             label="Username"
-            name="Username"
+            name="username"
             placeholder="username"
             type="text"
             register={register}
             registerOptions={{ required: "Required" }}
-            error={errors.username}
+            // error={errors.username}
           />
           <TextInputField
             label="Password"
@@ -55,7 +56,7 @@ export default function LogInModal({
             type="password"
             register={register}
             registerOptions={{ required: "Required" }}
-            error={errors.password}
+            // error={errors.password}
           />
           <Button
             type="submit"
