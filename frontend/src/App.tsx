@@ -7,28 +7,29 @@ import Note from "./components/Note";
 import * as NoteApi from "./network/notes_api";
 import AddNoteDialog from "./components/AddEditNoteDialog";
 import { FaPlus } from "react-icons/fa";
+import SignUpModal from "./components/SignUpModal";
+import LogInModal from "./components/LogInModal";
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
   const [showAddNote, setShowAddNote] = useState(false);
   const [noteToEdit, setNoteToEdit] = useState<NoteModel | null>(null);
-  const [notesLoading, setNotesLoading] = useState(true)	
-  const [showNotesLoadingError, setShowNotesLoadingError] = useState(false)	
+  const [notesLoading, setNotesLoading] = useState(true);
+  const [showNotesLoadingError, setShowNotesLoadingError] = useState(false);
 
   useEffect(() => {
     async function loadNotes() {
       try {
-		setShowNotesLoadingError(false)
-		setNotesLoading(true)
+        setShowNotesLoadingError(false);
+        setNotesLoading(true);
         const notes = await NoteApi.fetchNotes();
         setNotes(notes);
       } catch (error) {
         console.error(error);
-		setShowNotesLoadingError(true)
+        setShowNotesLoadingError(true);
+      } finally {
+        setNotesLoading(false);
       }
-	  finally{
-		setNotesLoading(false)
-	  }
     }
     loadNotes();
   }, []);
@@ -43,19 +44,20 @@ function App() {
     }
   }
 
-  const noteGrid = 
-	<Row xs={1} md={2} lg={3} className={`g-4 ${styles.noteGrid}`}>
-          {notes.map((note) => (
-            <Col key={note._id}>
-              <Note
-                onDeleteNoteClick={deleteNote}
-                onNoteClicked={setNoteToEdit}
-                note={note}
-                className={styles.note}
-              />
-            </Col>
-          ))}
-        </Row>
+  const noteGrid = (
+    <Row xs={1} md={2} lg={3} className={`g-4 ${styles.noteGrid}`}>
+      {notes.map((note) => (
+        <Col key={note._id}>
+          <Note
+            onDeleteNoteClick={deleteNote}
+            onNoteClicked={setNoteToEdit}
+            note={note}
+            className={styles.note}
+          />
+        </Col>
+      ))}
+    </Row>
+  );
 
   return (
     <div>
@@ -67,17 +69,14 @@ function App() {
           <FaPlus /> Add new note
         </Button>
 
-		{notesLoading && <Spinner animation="border" variant="primary"/>}
-		{showNotesLoadingError && <p>Something went wrong, please refresh the page</p>}
-		{!notesLoading && !showNotesLoadingError && 
-		<>
-		{
-			notes.length === 0?
-			<p>Please add some notes</p>:
-			noteGrid
-		}
-		</>}
-        
+        {notesLoading && <Spinner animation="border" variant="primary" />}
+        {showNotesLoadingError && (
+          <p>Something went wrong, please refresh the page</p>
+        )}
+        {!notesLoading && !showNotesLoadingError && (
+          <>{notes.length === 0 ? <p>Please add some notes</p> : noteGrid}</>
+        )}
+
         {showAddNote && (
           <AddNoteDialog
             onDismiss={() => setShowAddNote(false)}
@@ -100,6 +99,12 @@ function App() {
               );
             }}
           />
+        )}
+          {false && (
+            <LogInModal onDismiss={() => {}} onLogInSuccessful={() => {}} />
+          )}
+        {false && (
+          <SignUpModal onDismiss={() => {}} onSignUpSuccessful={() => {}} />
         )}
       </Container>
     </div>
